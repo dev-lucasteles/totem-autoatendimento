@@ -1,6 +1,6 @@
-# 🖥️ Totem de Suporte
+# Totem de Suporte
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 * **JavaFX:** Construção da interface gráfica interativa de autoatendimento.
 * **Spring Boot:** Gerenciamento da injeção de dependências e inicialização da aplicação.
 * **Spring Data JPA:** Abstração da camada de acesso a dados e mapeamento objeto-relacional.
@@ -14,7 +14,7 @@
 * **Pop-ups:** Feedback imediato ao usuário em caso de sucesso ou erro na validação dos campos.
 * **Persistência de Dados:** Todos os chamados são armazenados automaticamente na tabela `chamados_ti` no banco de dados.
 
-## ⚙️ Configuração do Banco de Dados
+## Configuração do Banco de Dados
 A aplicação está configurada para conectar a uma instância local do MySQL e criar o banco automaticamente. 
 Certifique-se de que o seu serviço MySQL esteja rodando e valide as credenciais no arquivo `application.properties`:
 ```properties
