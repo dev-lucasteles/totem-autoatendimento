@@ -21,3 +21,38 @@ Certifique-se de que o seu serviço MySQL esteja rodando e valide as credenciais
 spring.datasource.url=jdbc:mysql://localhost:3306/totem_mais?createDatabaseIfNotExist=true&serverTimezone=UTC
 spring.datasource.username=root
 spring.datasource.password=
+```
+
+## Estrutura do projeto
+
+```
+totem-autoatendimento/
+├── pom.xml
+├── README.md
+├── .gitignore
+└── src/
+    └── main/
+        ├── java/
+        │   └── totem/
+        │       └── mais/
+        │           ├── TotemApplication.java
+        │           ├── business/
+        │           │   └── ChamadoBusiness.java
+        │           ├── controller/
+        │           │   ├── AlertaUtil.java
+        │           │   ├── ChamadoController.java
+        │           │   ├── ImpressoraUtil.java
+        │           │   └── TotemMAIS.java
+        │           └── infrastructure/
+        │               ├── entities/
+        │               │   └── Chamado.java
+        │               └── repositories/
+        │                   └── ChamadoRepository.java
+        │
+        └── resources/
+            ├── application.properties
+            ├── css/
+            │   └── style.css
+            └── img/
+                └── logo.png
+```
