@@ -1,0 +1,21 @@
+
+```text
+
+# Arquivos compilados e de Build
+
+target/
+*.class
+*.jar
+*.war
+*.log
+
+
+# Configuração de IDE
+
+.vscode/
+
+
+# Sistema Operacional
+
+.DS_Store
+Thumbs.db
