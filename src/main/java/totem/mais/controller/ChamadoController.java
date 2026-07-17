@@ -21,4 +21,10 @@ public class ChamadoController {
     public List<Chamado> buscarChamadosAbertos() {
         return business.buscarChamadosAbertos();
     }
+
+    public void resolverChamado(Long id) {
+        business.resolverChamado(id);
+    }
+
+
 }

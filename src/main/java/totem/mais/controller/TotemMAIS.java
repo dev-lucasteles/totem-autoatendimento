@@ -13,6 +13,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import totem.mais.TotemApplication;
 import totem.mais.infrastructure.entities.Chamado;
+import javafx.scene.control.TableCell;
+import java.time.format.DateTimeFormatter;
 
 import java.io.InputStream;
 import java.time.LocalDateTime;
@@ -58,6 +60,7 @@ public class TotemMAIS extends Application {
         TextField txtNome = new TextField();
         txtNome.setPromptText("Digite seu nome completo");
         txtNome.setPrefWidth(800);
+        txtNome.setOnMouseClicked(e -> abrirTecladoVirtual());
 
         ComboBox<String> cbSetor = new ComboBox<>();
         cbSetor.getItems().addAll("RH", "Financeiro", "CallCenter", "Diretoria", "Marketing", "CPD", "Cobrança", "T.I");
@@ -68,6 +71,9 @@ public class TotemMAIS extends Application {
         txtProblema.setPromptText("Descreva o problema de TI com detalhes...");
         txtProblema.setPrefRowCount(2);
         txtProblema.setPrefWidth(800);
+        txtProblema.setOnMouseClicked(e -> abrirTecladoVirtual());
+
+
 
         Button btnEnviar = new Button("ABRIR CHAMADO");
         btnEnviar.getStyleClass().add("botao-enviar");
@@ -158,7 +164,63 @@ public class TotemMAIS extends Application {
         colData.setCellValueFactory(new PropertyValueFactory<>("dataCriacao"));
         colData.setPrefWidth(150);
 
-        tabelaChamados.getColumns().addAll(colId, colNome, colSetor, colProblema, colStatus, colData);
+        TableColumn<Chamado, Void> colAcao = new TableColumn<>("Ação");
+        colAcao.setPrefWidth(120);
+
+        colAcao.setCellFactory(param -> new TableCell<Chamado, Void>() {
+            private final Button btnResolver = new Button("Resolver");
+
+            {
+                // Estilo verde para o botão de resolver
+                btnResolver.setStyle("-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;");
+
+                btnResolver.setOnAction(event -> {
+                    // Pega o chamado da linha atual
+                    Chamado chamadoSelecionado = getTableView().getItems().get(getIndex());
+
+                    // Chama o controlador para atualizar no banco
+                    controller.resolverChamado(chamadoSelecionado.getId());
+
+                    // Atualiza a tabela
+                    tabelaChamados.getItems().clear();
+                    tabelaChamados.getItems().addAll(controller.buscarChamadosAbertos());
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    Chamado chamado = getTableView().getItems().get(getIndex());
+                    // Se o chamado já estiver resolvido, mostra apenas um texto. Se não, mostra o botão.
+                    if ("RESOLVIDO".equals(chamado.getStatus())) {
+                        Label lblResolvido = new Label("Concluído");
+                        lblResolvido.setStyle("-fx-text-fill: #28a745; -fx-font-weight: bold;");
+                        setGraphic(lblResolvido);
+                    } else {
+                        setGraphic(btnResolver);
+                    }
+                }
+            }
+        });
+
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        tabelaChamados.getColumns().addAll(colId, colNome, colSetor, colProblema, colStatus, colData, colAcao);
+
+
+        colData.setCellFactory(coluna -> new TableCell<Chamado, LocalDateTime>() {
+            @Override
+            protected void updateItem(LocalDateTime data, boolean vazia) {
+                super.updateItem(data, vazia);
+                if (vazia || data == null) {
+                    setText(null);
+                } else {
+                    setText(formatador.format(data));
+                }
+            }
+        });
 
 //   Botões de Ação abaixo da tabela
         Button btnAtualizar = new Button("Atualizar Lista");
@@ -168,7 +230,7 @@ public class TotemMAIS extends Application {
             tabelaChamados.getItems().addAll(controller.buscarChamadosAbertos());
         });
 
-        Button btnSair = new Button("Sair (Bloquear Tela)");
+        Button btnSair = new Button("Sair");
         btnSair.setStyle("-fx-background-color: #CC0000; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10px 20px; -fx-background-radius: 5px;");
         btnSair.setOnAction(e -> {
             tabelaChamados.getItems().clear(); // Limpa os dados por segurança
@@ -234,5 +296,28 @@ public class TotemMAIS extends Application {
         linha.setMaxWidth(800);
         linha.getChildren().addAll(label, campo);
         return linha;
+    }
+
+    private void abrirTecladoVirtual() {
+        try {
+            // 1. Força o encerramento do teclado caso ele esteja escondido em segundo plano
+            Runtime.getRuntime().exec("taskkill /F /IM TabTip.exe");
+
+            // 2. Dá uma pausa de 100 milissegundos para o Windows ter tempo de fechar o processo
+            Thread.sleep(100);
+
+            // 3. Chama o teclado para abrir do zero
+            Runtime.getRuntime().exec("cmd /c \"C:\\Program Files\\Common Files\\microsoft shared\\ink\\TabTip.exe\"");
+
+        } catch (Exception ex) {
+            System.out.println("Aviso: Não foi possível abrir o teclado virtual nativo. " + ex.getMessage());
+
+            try {
+                // Fallback para o teclado clássico
+                Runtime.getRuntime().exec("cmd /c osk");
+            } catch (Exception ex2) {
+                System.out.println("Aviso: Teclado clássico também falhou.");
+            }
+        }
     }
 }
