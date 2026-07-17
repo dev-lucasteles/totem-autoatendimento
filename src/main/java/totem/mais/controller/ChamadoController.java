@@ -3,10 +3,11 @@ package totem.mais.controller;
 import org.springframework.stereotype.Component;
 import totem.mais.business.ChamadoBusiness;
 import totem.mais.infrastructure.entities.Chamado;
+import java.util.List;
 
 @Component
 public class ChamadoController {
-    
+
     private final ChamadoBusiness business;
 
     public ChamadoController(ChamadoBusiness business) {
@@ -15,5 +16,9 @@ public class ChamadoController {
 
     public Chamado abrirChamado(String nome, String setor, String problema) {
         return business.processarNovoChamado(nome, setor, problema);
+    }
+
+    public List<Chamado> buscarChamadosAbertos() {
+        return business.buscarChamadosAbertos();
     }
 }

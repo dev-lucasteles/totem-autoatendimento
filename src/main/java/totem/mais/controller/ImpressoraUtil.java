@@ -19,6 +19,7 @@ public class ImpressoraUtil {
             Printer impressora = job.getPrinter();
 
 
+            // Isso remove o espaço em branco gigante no topo e na esquerda
             PageLayout pageLayout = impressora.createPageLayout(
                     impressora.getDefaultPageLayout().getPaper(),
                     PageOrientation.PORTRAIT,
@@ -28,12 +29,12 @@ public class ImpressoraUtil {
             VBox ticket = new VBox(5);
             ticket.setStyle("-fx-padding: 5px; -fx-background-color: white;");
             
-            // Lê a largura da bobina e trava o ticket nela
+            // 2. Lê a largura exata da bobina e trava o ticket nela
             double larguraBobina = pageLayout.getPrintableWidth();
             ticket.setPrefWidth(larguraBobina);
             ticket.setMaxWidth(larguraBobina);
             
-            //  Textos
+            // 3. Textos (O setMaxWidth obriga o texto a quebrar a linha se for grande)
             Label cabecalho = new Label("--- SUPORTE T.I MAIS ---");
             cabecalho.setFont(Font.font("Monospaced", FontWeight.BOLD, 12));
             cabecalho.setWrapText(true);
@@ -61,6 +62,7 @@ public class ImpressoraUtil {
             
             ticket.getChildren().addAll(cabecalho, lblNumero, lblNome, lblSetor, lblAviso);
 
+            // 4. Imprime PASSANDO O NOVO LAYOUT sem margens
             boolean sucesso = job.printPage(pageLayout, ticket);
             
             if (sucesso) {
