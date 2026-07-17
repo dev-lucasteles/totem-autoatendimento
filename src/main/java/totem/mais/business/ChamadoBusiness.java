@@ -33,4 +33,14 @@ public class ChamadoBusiness {
         Chamado novoChamado = new Chamado(nome, setor, problema);
         return repository.save(novoChamado);
     }
+
+    public void resolverChamado(Long id) {
+        Chamado chamado = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Chamado não encontrado."));
+
+        chamado.setStatus("RESOLVIDO");
+        repository.save(chamado);
+    }
+
+
 }
