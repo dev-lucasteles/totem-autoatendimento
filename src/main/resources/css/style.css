@@ -1,21 +1,20 @@
-/* Configuração Geral da Tela (Fundo branco/gelo e fonte moderna) */
 .root {
-    -fx-background-color: #F4F7F9;
+    -fx-background-color: #070230;
     -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-font-size: 16px;
+    -fx-font-size: 24px;
 }
 
 /* Título Principal */
 .titulo {
-    -fx-font-size: 28px;
+    -fx-font-size: 42px;
     -fx-font-weight: bold;
-    -fx-text-fill: #004B93; /* Azul Escuro */
-    -fx-padding: 0 0 20 0;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 0 0 10 0;
 }
 
 /* Estilo dos Rótulos (Labels) */
 .label {
-    -fx-text-fill: #333333;
+    -fx-text-fill: #ffffff;
     -fx-font-weight: bold;
 }
 
@@ -23,21 +22,21 @@
 .text-field, .combo-box, .text-area {
     -fx-background-color: #FFFFFF;
     -fx-border-color: #CCCCCC;
-    -fx-border-radius: 5px;
-    -fx-background-radius: 5px;
-    -fx-padding: 10px;
+    -fx-border-radius: 8px; /* Borda um pouco mais arredondada */
+    -fx-background-radius: 8px;
+    -fx-padding: 15px; /* Maior espaçamento interno para facilitar toque */
     -fx-prompt-text-fill: #999999;
 }
 
 /* Efeito ao clicar no campo (Fica com borda azul) */
 .text-field:focused, .combo-box:focused, .text-area:focused {
     -fx-border-color: #0066CC;
-    -fx-border-width: 2px;
+    -fx-border-width: 3px; /* Borda de foco mais visível */
 }
 
 /* Ocultar a barrinha do ComboBox para ficar mais limpo */
 .combo-box .list-cell {
-    -fx-padding: 10px;
+    -fx-padding: 15px;
 }
 
 /* Botão Principal */
@@ -45,11 +44,11 @@
     -fx-background-color: #0066CC; /* Azul Vivo */
     -fx-text-fill: #FFFFFF;
     -fx-font-weight: bold;
-    -fx-font-size: 18px;
-    -fx-padding: 15px 30px;
-    -fx-background-radius: 8px;
+    -fx-font-size: 26px; /* Aumentado de 18px para facilitar o clique */
+    -fx-padding: 20px 50px; /* Botão maior e mais largo */
+    -fx-background-radius: 10px;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5); /* Sombra elegante */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 15, 0, 0, 8);
 }
 
 /* Efeito ao passar o mouse/dedo no botão */
@@ -61,5 +60,62 @@
 .botao-enviar:pressed {
     -fx-background-color: #003366;
     -fx-effect: none;
-    -fx-translate-y: 2px; /* Faz o botão "afundar" */
+    -fx-translate-y: 3px;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #CCCCCC;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-font-size: 20px; /* Fonte da tabela um pouco menor que a base, mas legível */
+}
+
+/* Estilo do cabeçalho das colunas */
+.table-view .column-header-background {
+    -fx-background-color: #0066CC;
+    -fx-background-radius: 5px 5px 0 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-padding: 15px;
+}
+
+/* Texto do cabeçalho */
+.table-view .column-header .label {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-font-size: 22px; /* Cabeçalho da tabela aumentado de 14px */
+}
+
+/* Estilo das linhas */
+.table-row-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent transparent #EEEEEE transparent;
+    -fx-border-width: 1px;
+    -fx-cell-size: 50px; /* Altura da linha maior para totens */
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #F9F9F9;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #E6F2FF;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #0055A8;
+    -fx-text-background-color: #FFFFFF;
+}
+
+.table-view .filler {
+    -fx-background-color: transparent;
+}
+
+.tab-pane .tab-header-area {
+    visibility: hidden;
+    -fx-pref-height: 0;
+    -fx-padding: 0;
 }
